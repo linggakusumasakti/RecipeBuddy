@@ -35,6 +35,14 @@ struct PlanView: View {
                     }
                 )
             }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    ShareLink(item: shareText) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                    .disabled(viewModel.shoppingList.isEmpty)
+                }
+            }
         }
         .onAppear { viewModel.load() }
     }
@@ -82,3 +90,14 @@ struct PlanView: View {
 }
 
 
+
+private extension PlanView {
+    var shareText: String {
+        let header = "Shopping List"
+        let lines = viewModel.shoppingList.map { item in
+            let quantityText = item.quantities.isEmpty ? "" : " — " + item.quantities.joined(separator: ", ")
+            return "• \(item.name)\(quantityText)"
+        }
+        return ([header] + lines).joined(separator: "\n")
+    }
+}
