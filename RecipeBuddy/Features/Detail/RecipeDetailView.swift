@@ -15,11 +15,7 @@ struct RecipeDetailView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: Theme.Spacing.lg) {
-                AsyncImage(url: URL(string: recipe.image)) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: {
-                    Rectangle().fill(Theme.Colors.surfaceSecondary)
-                }
+                CachedImageView(urlString: recipe.image)
                 .frame(height: 220)
                 .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.card))
 

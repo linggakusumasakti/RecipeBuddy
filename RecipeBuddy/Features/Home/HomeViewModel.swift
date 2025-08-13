@@ -3,28 +3,35 @@ import Foundation
 @MainActor
 final class HomeViewModel: ObservableObject {
     enum ViewState: Equatable { case idle, loading, loaded, empty, error(String) }
+    // Removed time sort from Home; favorites has its own createdAt-based sorting
     
     @Published var state: ViewState = .idle
     @Published var recipes: [Recipe] = []
     @Published var searchText: String = ""
+    @Published var availableTags: [String] = []
+    @Published var selectedTags: Set<String> = []
     
     private let fetchUseCase: FetchRecipesUseCase
-    private let searchUseCase: SearchRecipesUseCase
     let getFavoritesUseCase: GetIsFavoritesUseCase
+    private let searchUseCase: SearchRecipesUseCase
+    private let filterByTagsUseCase: FilterRecipesByTagsUseCase
     private let toggleFavoriteUseCase: ToggleFavoriteUseCase
     private let debouncer = AsyncDebouncer()
+    private var allRecipes: [Recipe] = []
     
     init(
     fetchUseCase: FetchRecipesUseCase,
     searchUseCase: SearchRecipesUseCase,
+    filterByTagsUseCase: FilterRecipesByTagsUseCase,
     getFavoritesUseCase: GetIsFavoritesUseCase,
     toggleFavoriteUseCase: ToggleFavoriteUseCase
-) {
+ ) {
     self.fetchUseCase = fetchUseCase
     self.searchUseCase = searchUseCase
+    self.filterByTagsUseCase = filterByTagsUseCase
     self.getFavoritesUseCase = getFavoritesUseCase
     self.toggleFavoriteUseCase = toggleFavoriteUseCase
-}
+ }
     
     func load() {
         Task { await loadAll() }
@@ -40,11 +47,18 @@ final class HomeViewModel: ObservableObject {
          toggleFavoriteUseCase.execute(recipe: recipe)
     }
     
+    func toggleTag(_ tag: String) {
+        if selectedTags.contains(tag) { selectedTags.remove(tag) } else { selectedTags.insert(tag) }
+        applyFiltersAndSort()
+    }
+    
     private func loadAll() async {
         state = .loading
         do {
             let list = try await fetchUseCase.execute()
-            self.recipes = list
+            self.allRecipes = list
+            self.availableTags = Array(Set(list.flatMap { $0.tags })).sorted()
+            applyFiltersAndSort()
             state = list.isEmpty ? .empty : .loaded
         } catch {
             state = .error("Failed to load recipes")
@@ -52,16 +66,34 @@ final class HomeViewModel: ObservableObject {
     }
     
     private func performSearch() async {
+        let trimmedQuery = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+        if trimmedQuery.isEmpty {
+            await loadAll()
+            return
+        }
         do {
-            if searchText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                await loadAll()
-                return
-            }
-            let results = try await searchUseCase.execute(query: searchText)
-            self.recipes = results
-            state = results.isEmpty ? .empty : .loaded
+            let results = try await searchUseCase.execute(query: trimmedQuery)
+            self.allRecipes = results
+            applyFiltersAndSort()
+            state = recipes.isEmpty ? .empty : .loaded
         } catch {
             state = .error("Search failed")
+        }
+    }
+    
+    private func applyFiltersAndSort() {
+        let hasSelectedTags = selectedTags.isEmpty == false
+        if hasSelectedTags == false {
+            self.recipes = allRecipes
+            return
+        }
+        Task { [selectedTags] in
+            do {
+                let filtered = try await filterByTagsUseCase.execute(tags: selectedTags)
+                self.recipes = filtered
+            } catch {
+                self.recipes = []
+            }
         }
     }
 }

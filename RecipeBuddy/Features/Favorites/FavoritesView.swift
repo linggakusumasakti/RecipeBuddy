@@ -11,7 +11,20 @@ struct FavoritesView: View {
     
     var body: some View {
         NavigationStack {
-            Group {
+            VStack(spacing: Theme.Spacing.md) {
+                HStack {
+                    Picker("Order", selection: $viewModel.order) {
+                        Text("Oldest").tag(FavoriteSortOrder.oldestFirst as FavoriteSortOrder)
+                        Text("Newest").tag(FavoriteSortOrder.newestFirst as FavoriteSortOrder)
+                    }
+                    .pickerStyle(.segmented)
+                    .onChange(of: viewModel.order) {
+                        viewModel.refresh()
+                    }
+                }
+                .padding(.horizontal, Theme.Spacing.lg)
+                
+                Group {
                 if viewModel.recipes.isEmpty {
                     VStack(spacing: Theme.Spacing.md) {
                         Text("No favorites yet").font(Theme.Typography.title3).foregroundStyle(Theme.Colors.textPrimary)
@@ -34,6 +47,7 @@ struct FavoritesView: View {
                             }
                         }
                     }
+                }
                 }
             }
             .background(Theme.Colors.background)

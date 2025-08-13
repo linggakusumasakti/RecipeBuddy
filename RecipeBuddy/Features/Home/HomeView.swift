@@ -14,6 +14,7 @@ struct HomeView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     header
+                    controls
                     content
                 }
             }
@@ -28,7 +29,7 @@ struct HomeView: View {
             }
         }
         .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always))
-        .onChange(of: viewModel.searchText) { _, newValue in
+        .onChange(of: viewModel.searchText) { newValue, _ in
             viewModel.onSearchTextChange(newValue)
         }
         .onAppear { viewModel.load() }
@@ -47,6 +48,29 @@ struct HomeView: View {
         .padding(.horizontal, Theme.Spacing.lg)
         .padding(.vertical, Theme.Spacing.lg)
         .background(Theme.Colors.background)
+    }
+
+    @ViewBuilder
+    private var controls: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.md) {
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 8) {
+                    ForEach(viewModel.availableTags, id: \.self) { tag in
+                        Button(action: { viewModel.toggleTag(tag) }) {
+                            Text(tag)
+                                .font(Theme.Typography.caption)
+                                .padding(.horizontal, 10)
+                                .padding(.vertical, 6)
+                                .background(viewModel.selectedTags.contains(tag) ? Theme.Colors.gradientStart.opacity(0.25) : Theme.Colors.surfaceSecondary)
+                                .clipShape(Capsule())
+                                .foregroundStyle(viewModel.selectedTags.contains(tag) ? Theme.Colors.gradientStart : Theme.Colors.textSecondary)
+                        }
+                    }
+                }
+                .padding(.horizontal, Theme.Spacing.lg)
+            }
+        }
+        .padding(.top, Theme.Spacing.md)
     }
 
     @ViewBuilder

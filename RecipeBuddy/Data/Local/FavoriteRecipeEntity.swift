@@ -8,6 +8,7 @@ final class FavoriteRecipe: NSManagedObject {
     @NSManaged var tags: [String]?
     @NSManaged var minutes: Int32
     @NSManaged var image: String?
+    @NSManaged var createdAt: Date?
 }
 
 extension FavoriteRecipe {

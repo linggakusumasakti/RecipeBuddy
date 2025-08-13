@@ -47,6 +47,7 @@ final class FavoritesLocalDataSource: FavoritesLocalDataSourceProtocol {
             entity.tags = recipe.tags
             entity.minutes = Int32(recipe.minutes)
             entity.image = recipe.image
+            entity.createdAt = Date()
             do {
                 try context.save()
             } catch {

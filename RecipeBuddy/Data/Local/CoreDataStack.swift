@@ -39,7 +39,12 @@ final class CoreDataStack {
         imageAttr.attributeType = .stringAttributeType
         imageAttr.isOptional = true
 
-        entity.properties = [idAttr, titleAttr, tagsAttr, minutesAttr, imageAttr]
+        let createdAtAttr = NSAttributeDescription()
+        createdAtAttr.name = "createdAt"
+        createdAtAttr.attributeType = .dateAttributeType
+        createdAtAttr.isOptional = true
+
+        entity.properties = [idAttr, titleAttr, tagsAttr, minutesAttr, imageAttr, createdAtAttr]
         model.entities = [entity]
 
         container = NSPersistentContainer(name: "RecipeBuddyModel", managedObjectModel: model)

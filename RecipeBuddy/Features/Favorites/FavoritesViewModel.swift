@@ -3,6 +3,7 @@ import Foundation
 @MainActor
 final class FavoritesViewModel: ObservableObject {
     @Published var recipes: [Recipe] = []
+    @Published var order: FavoriteSortOrder = .newestFirst
     
     private let getFavoritesUseCase: GetIsFavoritesUseCase
     private let getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase
@@ -32,7 +33,7 @@ final class FavoritesViewModel: ObservableObject {
     
     private func loadFavorites() async {
         do {
-            let favorites = try await getFavoriteRecipesUseCase.execute()
+            let favorites = try await getFavoriteRecipesUseCase.execute(order: order)
             self.recipes = favorites
         } catch {
             self.recipes = []

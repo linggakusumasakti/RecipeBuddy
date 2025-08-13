@@ -12,6 +12,7 @@ final class AppContainer {
         HomeViewModel(
             fetchUseCase: FetchRecipesUseCase(repository: repository),
             searchUseCase: SearchRecipesUseCase(repository: repository),
+            filterByTagsUseCase: FilterRecipesByTagsUseCase(repository: repository),
             getFavoritesUseCase: GetIsFavoritesUseCase(repository: repository),
             toggleFavoriteUseCase: ToggleFavoriteUseCase(repository: repository)
         )

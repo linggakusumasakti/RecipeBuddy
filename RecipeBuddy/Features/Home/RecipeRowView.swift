@@ -6,13 +6,9 @@ struct RecipeRowView: View {
 
     var body: some View {
         HStack(spacing: Theme.Spacing.md) {
-            AsyncImage(url: URL(string: recipe.image)) { image in
-                image.resizable().scaledToFill()
-            } placeholder: {
-                Rectangle().fill(Theme.Colors.surfaceSecondary)
-            }
-            .frame(width: 84, height: 84)
-            .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.card))
+            CachedImageView(urlString: recipe.image)
+                .frame(width: 84, height: 84)
+                .clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.card))
 
             VStack(alignment: .leading, spacing: 6) {
                 HStack {

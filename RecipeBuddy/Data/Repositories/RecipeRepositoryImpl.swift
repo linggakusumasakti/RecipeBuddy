@@ -28,15 +28,36 @@ final class RecipeRepositoryImpl: RecipeRepository {
             return false
         }
     }
+    
+    func filterRecipes(byTags tags: Set<String>) async throws -> [Recipe] {
+        let all = try await fetchAllRecipes()
+        if tags.isEmpty { return all }
+        return all.filter { recipe in !Set(recipe.tags).intersection(tags).isEmpty }
+    }
 
     func isFavorite(id: String) -> Bool { (try? local.isFavorite(id: id)) ?? false }
     
     func toggleFavorite(recipe: Recipe) -> Bool { ((try? local.toggleFavorite(recipe: recipe)) ?? false) }
     
-    func favoriteRecipes() async throws -> [Recipe] {
+    func favoriteRecipes(by order: FavoriteSortOrder) async throws -> [Recipe] {
         let favorites = (try? local.favoriteRecipes()) ?? []
         if favorites.isEmpty { return [] }
-        return favorites.map { fav in
+        let sorted: [FavoriteRecipe]
+        switch order {
+        case .oldestFirst:
+            sorted = favorites.sorted { (a, b) in
+                let aDate = a.createdAt ?? .distantPast
+                let bDate = b.createdAt ?? .distantPast
+                return aDate < bDate
+            }
+        case .newestFirst:
+            sorted = favorites.sorted { (a, b) in
+                let aDate = a.createdAt ?? .distantPast
+                let bDate = b.createdAt ?? .distantPast
+                return aDate > bDate
+            }
+        }
+        return sorted.map { fav in
             Recipe(
                 id: fav.id,
                 title: fav.title ?? "",
