@@ -4,15 +4,18 @@ final class RecipeRepositoryImpl: RecipeRepository {
     private let remote: RecipesRemoteDataSourceProtocol
     private let local: FavoritesLocalDataSourceProtocol
     private let recipesLocal: RecipesLocalDataSourceProtocol
+    private let plannedLocal: PlannedLocalDataSourceProtocol
 
     init(
         remote: RecipesRemoteDataSourceProtocol = RecipesRemoteDataSource(),
         local: FavoritesLocalDataSourceProtocol = FavoritesLocalDataSource(),
-        recipesLocal: RecipesLocalDataSourceProtocol = RecipesLocalDataSource()
+        recipesLocal: RecipesLocalDataSourceProtocol = RecipesLocalDataSource(),
+        plannedLocal: PlannedLocalDataSourceProtocol = PlannedLocalDataSource()
     ) {
         self.remote = remote
         self.local = local
         self.recipesLocal = recipesLocal
+        self.plannedLocal = plannedLocal
     }
 
     func fetchAllRecipes() async throws -> [Recipe] {
@@ -91,6 +94,30 @@ final class RecipeRepositoryImpl: RecipeRepository {
             ingredients: fav.ingredients,
             steps: fav.steps
         )
+    }
+
+    func isPlanned(id: String) -> Bool { (try? plannedLocal.isPlanned(id: id)) ?? false }
+    
+    func togglePlanned(recipe: Recipe) -> Bool { ((try? plannedLocal.togglePlanned(recipe: recipe)) ?? false) }
+    
+    func plannedRecipes() async throws -> [Recipe] {
+        let planned = (try? plannedLocal.plannedRecipes()) ?? []
+        if planned.isEmpty { return [] }
+        // Enrich with full ingredients and steps from remote/local
+        let all = await (try? remote.fetchAll()) ?? ((try? recipesLocal.getLocalRecipes()) ?? [])
+        let fullById = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
+        return planned.compactMap { p in
+            if let full = fullById[p.id] { return full }
+            return Recipe(
+                id: p.id,
+                title: p.title ?? "",
+                tags: p.tags ?? [],
+                minutes: Int(p.minutes),
+                image: p.image ?? "",
+                ingredients: [],
+                steps: []
+            )
+        }
     }
 }
 

@@ -14,7 +14,9 @@ final class AppContainer {
             searchUseCase: SearchRecipesUseCase(repository: repository),
             filterByTagsUseCase: FilterRecipesByTagsUseCase(repository: repository),
             getFavoritesUseCase: GetIsFavoritesUseCase(repository: repository),
-            toggleFavoriteUseCase: ToggleFavoriteUseCase(repository: repository)
+            toggleFavoriteUseCase: ToggleFavoriteUseCase(repository: repository),
+            getIsPlannedUseCase: GetIsPlannedUseCase(repository: repository),
+            togglePlannedUseCase: TogglePlannedUseCase(repository: repository)
         )
     }
 
@@ -25,6 +27,14 @@ final class AppContainer {
             getFavoriteRecipesUseCase: GetFavoriteRecipesUseCase(repository: repository),
             getFavoriteRecipeUseCase: GetFavoriteRecipeUseCase(repository: repository),
             toggleFavoriteUseCase: ToggleFavoriteUseCase(repository: repository)
+        )
+    }
+
+    @MainActor
+    func makePlanViewModel() -> PlanViewModel {
+        PlanViewModel(
+            getPlannedRecipesUseCase: GetPlannedRecipesUseCase(repository: repository),
+            generateShoppingListUseCase: GenerateShoppingListUseCase(repository: repository)
         )
     }
 }

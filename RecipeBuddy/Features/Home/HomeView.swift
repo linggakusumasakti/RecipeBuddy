@@ -22,10 +22,11 @@ struct HomeView: View {
             .navigationDestination(for: Recipe.self) { recipe in
                 RecipeDetailView(
                     recipe: recipe,
-                    isInitiallyFavorite: viewModel.getFavoritesUseCase.execute(id: recipe.id)
-                ) { rec in
-                    viewModel.toggleFavorite(recipe: rec)
-                }
+                    isInitiallyFavorite: viewModel.getFavoritesUseCase.execute(id: recipe.id),
+                    isInitiallyPlanned: viewModel.getIsPlannedUseCase.execute(id: recipe.id),
+                    onToggleFavorite: { rec in viewModel.toggleFavorite(recipe: rec) },
+                    onTogglePlanned: { rec in viewModel.togglePlanned(recipe: rec) }
+                )
             }
         }
         .searchable(text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always))
@@ -87,10 +88,13 @@ struct HomeView: View {
             LazyVStack(spacing: 0) {
                 ForEach(viewModel.recipes) { recipe in
                     NavigationLink(value: recipe) {
-                        RecipeRowView(recipe: recipe, isFavorite: false)
-                            .contentShape(Rectangle())
-                            .padding(.horizontal, Theme.Spacing.lg)
-                            .padding(.vertical, 8)
+                        RecipeRowView(
+                            recipe: recipe,
+                            isFavorite: false
+                        )
+                        .contentShape(Rectangle())
+                        .padding(.horizontal, Theme.Spacing.lg)
+                        .padding(.vertical, 8)
                     }
                     Divider().background(Theme.Colors.surface)
                         .padding(.leading, Theme.Spacing.lg + 84 + Theme.Spacing.md)

@@ -54,7 +54,9 @@ struct FavoritesView: View {
             .navigationDestination(for: Recipe.self) { recipe in
                 FavoriteRecipeDestination(
                     id: recipe.id,
-                    getUseCase: viewModel.getFavoriteRecipeUseCase
+                    getUseCase: viewModel.getFavoriteRecipeUseCase,
+                    getIsPlannedUseCase: GetIsPlannedUseCase(repository: container.repository),
+                    togglePlannedUseCase: TogglePlannedUseCase(repository: container.repository)
                 ) { rec in
                     viewModel.toggleFavorite(recipe: rec)
                 }
@@ -68,6 +70,8 @@ struct FavoritesView: View {
 private struct FavoriteRecipeDestination: View {
     let id: String
     let getUseCase: GetFavoriteRecipeUseCase
+    let getIsPlannedUseCase: GetIsPlannedUseCase
+    let togglePlannedUseCase: TogglePlannedUseCase
     let onToggle: (Recipe) -> Void
 
     @State private var loaded: Recipe?
@@ -76,9 +80,13 @@ private struct FavoriteRecipeDestination: View {
     var body: some View {
         Group {
             if let recipe = loaded {
-                RecipeDetailView(recipe: recipe, isInitiallyFavorite: true) { rec in
-                    onToggle(rec)
-                }
+                RecipeDetailView(
+                    recipe: recipe,
+                    isInitiallyFavorite: true,
+                    isInitiallyPlanned: getIsPlannedUseCase.execute(id: recipe.id),
+                    onToggleFavorite: { rec in onToggle(rec) },
+                    onTogglePlanned: { rec in _ = togglePlannedUseCase.execute(recipe: rec) }
+                )
             } else {
                 ProgressView().task {
                     guard !isLoading else { return }

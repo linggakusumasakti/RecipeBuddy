@@ -16,6 +16,8 @@ final class HomeViewModel: ObservableObject {
     private let searchUseCase: SearchRecipesUseCase
     private let filterByTagsUseCase: FilterRecipesByTagsUseCase
     private let toggleFavoriteUseCase: ToggleFavoriteUseCase
+    let getIsPlannedUseCase: GetIsPlannedUseCase
+    private let togglePlannedUseCase: TogglePlannedUseCase
     private let debouncer = AsyncDebouncer()
     private var allRecipes: [Recipe] = []
     
@@ -24,13 +26,17 @@ final class HomeViewModel: ObservableObject {
     searchUseCase: SearchRecipesUseCase,
     filterByTagsUseCase: FilterRecipesByTagsUseCase,
     getFavoritesUseCase: GetIsFavoritesUseCase,
-    toggleFavoriteUseCase: ToggleFavoriteUseCase
+    toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    getIsPlannedUseCase: GetIsPlannedUseCase,
+    togglePlannedUseCase: TogglePlannedUseCase
  ) {
     self.fetchUseCase = fetchUseCase
     self.searchUseCase = searchUseCase
     self.filterByTagsUseCase = filterByTagsUseCase
     self.getFavoritesUseCase = getFavoritesUseCase
     self.toggleFavoriteUseCase = toggleFavoriteUseCase
+    self.getIsPlannedUseCase = getIsPlannedUseCase
+    self.togglePlannedUseCase = togglePlannedUseCase
  }
     
     func load() {
@@ -45,6 +51,10 @@ final class HomeViewModel: ObservableObject {
     
     func toggleFavorite(recipe: Recipe) {
          toggleFavoriteUseCase.execute(recipe: recipe)
+    }
+
+    func togglePlanned(recipe: Recipe) {
+         _ = togglePlannedUseCase.execute(recipe: recipe)
     }
     
     func toggleTag(_ tag: String) {

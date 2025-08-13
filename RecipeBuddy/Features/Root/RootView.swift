@@ -13,6 +13,8 @@ struct RootView: View {
                 .tabItem { Label("Home", systemImage: "house.fill") }
             FavoritesView(container: container)
                 .tabItem { Label("Favorites", systemImage: "heart.fill") }
+            PlanView(container: container)
+                .tabItem { Label("Plan", systemImage: "calendar") }
         }
         .accentColor(Theme.Colors.primary)
         .preferredColorScheme(.dark)

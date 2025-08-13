@@ -8,6 +8,9 @@ public protocol RecipeRepository {
     func toggleFavorite(recipe: Recipe) -> Bool
     func favoriteRecipes(by order: FavoriteSortOrder) async throws -> [Recipe]
     func favoriteReipe(id: String) async throws -> Recipe?
+    func isPlanned(id: String) -> Bool
+    func togglePlanned(recipe: Recipe) -> Bool
+    func plannedRecipes() async throws -> [Recipe]
 }
 
 

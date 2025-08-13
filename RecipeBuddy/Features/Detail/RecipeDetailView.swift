@@ -4,12 +4,16 @@ struct RecipeDetailView: View {
     let recipe: Recipe
     @State private var checkedIngredients: Set<String> = []
     @State private var isFavorite: Bool
+    @State private var isPlanned: Bool
     let onToggleFavorite: (Recipe) -> Void
+    let onTogglePlanned: (Recipe) -> Void
 
-    init(recipe: Recipe, isInitiallyFavorite: Bool, onToggleFavorite: @escaping (Recipe) -> Void) {
+    init(recipe: Recipe, isInitiallyFavorite: Bool, isInitiallyPlanned: Bool, onToggleFavorite: @escaping (Recipe) -> Void, onTogglePlanned: @escaping (Recipe) -> Void) {
         self.recipe = recipe
         self._isFavorite = State(initialValue: isInitiallyFavorite)
+        self._isPlanned = State(initialValue: isInitiallyPlanned)
         self.onToggleFavorite = onToggleFavorite
+        self.onTogglePlanned = onTogglePlanned
     }
 
     var body: some View {
@@ -71,6 +75,27 @@ struct RecipeDetailView: View {
                 }
             }
         }
+		.safeAreaInset(edge: .bottom) {
+			VStack(spacing: 0) {
+				Button(action: {
+					onTogglePlanned(recipe)
+					isPlanned.toggle()
+				}) {
+					Text(isPlanned ? "Remove from Plan" : "Add to This Week’s Plan")
+						.font(Theme.Typography.button)
+						.foregroundStyle(Theme.Colors.textPrimary)
+						.frame(maxWidth: .infinity)
+						.padding(.vertical, 14)
+				}
+				.background(Theme.Gradients.primary)
+				.clipShape(RoundedRectangle(cornerRadius: Theme.CornerRadius.button))
+				.shadow(color: Theme.Shadows.button, radius: 8, x: 0, y: 4)
+				.padding(.horizontal, Theme.Spacing.lg)
+				.padding(.top, Theme.Spacing.sm)
+				.padding(.bottom, Theme.Spacing.sm)
+			}
+			.background(Theme.Colors.background.opacity(0.95))
+		}
     }
 }
 

@@ -85,7 +85,46 @@ final class CoreDataStack {
 
         recipeEntity.properties = [rIdAttr, rTitleAttr, rTagsAttr, rMinutesAttr, rImageAttr, rCreatedAtAttr]
 
-        model.entities = [favoriteEntity, recipeEntity]
+
+        let plannedEntity = NSEntityDescription()
+        plannedEntity.name = "PlannedRecipe"
+        plannedEntity.managedObjectClassName = NSStringFromClass(PlannedRecipe.self)
+
+        let pIdAttr = NSAttributeDescription()
+        pIdAttr.name = "id"
+        pIdAttr.attributeType = .stringAttributeType
+        pIdAttr.isOptional = false
+
+        let pTitleAttr = NSAttributeDescription()
+        pTitleAttr.name = "title"
+        pTitleAttr.attributeType = .stringAttributeType
+        pTitleAttr.isOptional = true
+
+        let pTagsAttr = NSAttributeDescription()
+        pTagsAttr.name = "tags"
+        pTagsAttr.attributeType = .transformableAttributeType
+        pTagsAttr.isOptional = true
+        pTagsAttr.attributeValueClassName = NSStringFromClass(NSArray.self)
+        pTagsAttr.valueTransformerName = NSValueTransformerName.secureUnarchiveFromDataTransformerName.rawValue
+
+        let pMinutesAttr = NSAttributeDescription()
+        pMinutesAttr.name = "minutes"
+        pMinutesAttr.attributeType = .integer32AttributeType
+        pMinutesAttr.isOptional = false
+
+        let pImageAttr = NSAttributeDescription()
+        pImageAttr.name = "image"
+        pImageAttr.attributeType = .stringAttributeType
+        pImageAttr.isOptional = true
+
+        let pCreatedAtAttr = NSAttributeDescription()
+        pCreatedAtAttr.name = "createdAt"
+        pCreatedAtAttr.attributeType = .dateAttributeType
+        pCreatedAtAttr.isOptional = true
+
+        plannedEntity.properties = [pIdAttr, pTitleAttr, pTagsAttr, pMinutesAttr, pImageAttr, pCreatedAtAttr]
+
+        model.entities = [favoriteEntity, recipeEntity, plannedEntity]
 
         container = NSPersistentContainer(name: "RecipeBuddyModel", managedObjectModel: model)
 
