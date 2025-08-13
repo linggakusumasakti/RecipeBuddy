@@ -8,9 +8,10 @@ final class CoreDataStack {
 
     private init() {
         let model = NSManagedObjectModel()
-        let entity = NSEntityDescription()
-        entity.name = "FavoriteRecipe"
-        entity.managedObjectClassName = NSStringFromClass(FavoriteRecipe.self)
+
+        let favoriteEntity = NSEntityDescription()
+        favoriteEntity.name = "FavoriteRecipe"
+        favoriteEntity.managedObjectClassName = NSStringFromClass(FavoriteRecipe.self)
 
         let idAttr = NSAttributeDescription()
         idAttr.name = "id"
@@ -44,8 +45,47 @@ final class CoreDataStack {
         createdAtAttr.attributeType = .dateAttributeType
         createdAtAttr.isOptional = true
 
-        entity.properties = [idAttr, titleAttr, tagsAttr, minutesAttr, imageAttr, createdAtAttr]
-        model.entities = [entity]
+        favoriteEntity.properties = [idAttr, titleAttr, tagsAttr, minutesAttr, imageAttr, createdAtAttr]
+
+        let recipeEntity = NSEntityDescription()
+        recipeEntity.name = "RecipeEntity"
+        recipeEntity.managedObjectClassName = NSStringFromClass(RecipeEntity.self)
+
+        let rIdAttr = NSAttributeDescription()
+        rIdAttr.name = "id"
+        rIdAttr.attributeType = .stringAttributeType
+        rIdAttr.isOptional = false
+
+        let rTitleAttr = NSAttributeDescription()
+        rTitleAttr.name = "title"
+        rTitleAttr.attributeType = .stringAttributeType
+        rTitleAttr.isOptional = true
+
+        let rTagsAttr = NSAttributeDescription()
+        rTagsAttr.name = "tags"
+        rTagsAttr.attributeType = .transformableAttributeType
+        rTagsAttr.isOptional = true
+        rTagsAttr.attributeValueClassName = NSStringFromClass(NSArray.self)
+        rTagsAttr.valueTransformerName = NSValueTransformerName.secureUnarchiveFromDataTransformerName.rawValue
+
+        let rMinutesAttr = NSAttributeDescription()
+        rMinutesAttr.name = "minutes"
+        rMinutesAttr.attributeType = .integer32AttributeType
+        rMinutesAttr.isOptional = false
+
+        let rImageAttr = NSAttributeDescription()
+        rImageAttr.name = "image"
+        rImageAttr.attributeType = .stringAttributeType
+        rImageAttr.isOptional = true
+
+        let rCreatedAtAttr = NSAttributeDescription()
+        rCreatedAtAttr.name = "createdAt"
+        rCreatedAtAttr.attributeType = .dateAttributeType
+        rCreatedAtAttr.isOptional = true
+
+        recipeEntity.properties = [rIdAttr, rTitleAttr, rTagsAttr, rMinutesAttr, rImageAttr, rCreatedAtAttr]
+
+        model.entities = [favoriteEntity, recipeEntity]
 
         container = NSPersistentContainer(name: "RecipeBuddyModel", managedObjectModel: model)
 

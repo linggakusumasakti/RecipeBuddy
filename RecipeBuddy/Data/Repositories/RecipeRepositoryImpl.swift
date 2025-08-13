@@ -3,18 +3,27 @@ import Foundation
 final class RecipeRepositoryImpl: RecipeRepository {
     private let remote: RecipesRemoteDataSourceProtocol
     private let local: FavoritesLocalDataSourceProtocol
+    private let recipesLocal: RecipesLocalDataSourceProtocol
 
     init(
         remote: RecipesRemoteDataSourceProtocol = RecipesRemoteDataSource(),
-        local: FavoritesLocalDataSourceProtocol = FavoritesLocalDataSource()
+        local: FavoritesLocalDataSourceProtocol = FavoritesLocalDataSource(),
+        recipesLocal: RecipesLocalDataSourceProtocol = RecipesLocalDataSource()
     ) {
         self.remote = remote
         self.local = local
+        self.recipesLocal = recipesLocal
     }
 
     func fetchAllRecipes() async throws -> [Recipe] {
-        let recipes = try await remote.fetchAll()
-        return recipes
+        do {
+            let recipes = try await remote.fetchAll()
+            try? recipesLocal.saveAll(recipes: recipes)
+            return recipes
+        } catch {
+            let localRecipes = (try? recipesLocal.getLocalRecipes()) ?? []
+            return localRecipes
+        }
     }
 
     func searchRecipes(query: String) async throws -> [Recipe] {
