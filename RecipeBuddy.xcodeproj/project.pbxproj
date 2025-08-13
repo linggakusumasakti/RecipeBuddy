@@ -6,11 +6,60 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXContainerItemProxy section */
+		D0195CC22E4C97C100AFEA0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D0BB9F452E4B49C700082188 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D0BB9F4C2E4B49C700082188;
+			remoteInfo = RecipeBuddy;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		D0195CBE2E4C97C100AFEA0D /* RecipeBuddyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RecipeBuddyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D0BB9F4D2E4B49C700082188 /* RecipeBuddy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecipeBuddy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D0195CE52E4C9DAE00AFEA0D /* Exceptions for "RecipeBuddyTests" folder in "RecipeBuddy" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Data/Local/FavoritesLocalDataSourceTests.swift,
+				Data/Local/RecipesLocalDataSourceTests.swift,
+				Data/Remote/RecipesRemoteDataSourceTests.swift,
+				Data/Repositories/RecipeRepositoryImplTests.swift,
+				TestHelpers.swift,
+				ViewModels/FavoritesViewModelTests.swift,
+				ViewModels/HomeViewModelTests.swift,
+			);
+			target = D0BB9F4C2E4B49C700082188 /* RecipeBuddy */;
+		};
+		D0195CE62E4C9DAE00AFEA0D /* Exceptions for "RecipeBuddyTests" folder in "RecipeBuddyTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Data/Local/FavoritesLocalDataSourceTests.swift,
+				Data/Local/RecipesLocalDataSourceTests.swift,
+				Data/Remote/RecipesRemoteDataSourceTests.swift,
+				Data/Repositories/RecipeRepositoryImplTests.swift,
+				TestHelpers.swift,
+				ViewModels/FavoritesViewModelTests.swift,
+				ViewModels/HomeViewModelTests.swift,
+			);
+			target = D0195CBD2E4C97C100AFEA0D /* RecipeBuddyTests */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		D0195CD52E4C9DAD00AFEA0D /* RecipeBuddyTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D0195CE52E4C9DAE00AFEA0D /* Exceptions for "RecipeBuddyTests" folder in "RecipeBuddy" target */,
+				D0195CE62E4C9DAE00AFEA0D /* Exceptions for "RecipeBuddyTests" folder in "RecipeBuddyTests" target */,
+			);
+			path = RecipeBuddyTests;
+			sourceTree = "<group>";
+		};
 		D0BB9F4F2E4B49C700082188 /* RecipeBuddy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = RecipeBuddy;
@@ -19,6 +68,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D0195CBB2E4C97C100AFEA0D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0BB9F4A2E4B49C700082188 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -33,6 +89,7 @@
 			isa = PBXGroup;
 			children = (
 				D0BB9F4F2E4B49C700082188 /* RecipeBuddy */,
+				D0195CD52E4C9DAD00AFEA0D /* RecipeBuddyTests */,
 				D0BB9F4E2E4B49C700082188 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				D0BB9F4D2E4B49C700082188 /* RecipeBuddy.app */,
+				D0195CBE2E4C97C100AFEA0D /* RecipeBuddyTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,6 +106,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D0195CBD2E4C97C100AFEA0D /* RecipeBuddyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D0195CC42E4C97C100AFEA0D /* Build configuration list for PBXNativeTarget "RecipeBuddyTests" */;
+			buildPhases = (
+				D0195CBA2E4C97C100AFEA0D /* Sources */,
+				D0195CBB2E4C97C100AFEA0D /* Frameworks */,
+				D0195CBC2E4C97C100AFEA0D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D0195CC32E4C97C100AFEA0D /* PBXTargetDependency */,
+			);
+			name = RecipeBuddyTests;
+			packageProductDependencies = (
+			);
+			productName = RecipeBuddyTests;
+			productReference = D0195CBE2E4C97C100AFEA0D /* RecipeBuddyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		D0BB9F4C2E4B49C700082188 /* RecipeBuddy */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D0BB9F5B2E4B49C900082188 /* Build configuration list for PBXNativeTarget "RecipeBuddy" */;
@@ -61,6 +139,7 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
+				D0195CD52E4C9DAD00AFEA0D /* RecipeBuddyTests */,
 				D0BB9F4F2E4B49C700082188 /* RecipeBuddy */,
 			);
 			name = RecipeBuddy;
@@ -80,6 +159,10 @@
 				LastSwiftUpdateCheck = 1620;
 				LastUpgradeCheck = 1620;
 				TargetAttributes = {
+					D0195CBD2E4C97C100AFEA0D = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = D0BB9F4C2E4B49C700082188;
+					};
 					D0BB9F4C2E4B49C700082188 = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -100,11 +183,19 @@
 			projectRoot = "";
 			targets = (
 				D0BB9F4C2E4B49C700082188 /* RecipeBuddy */,
+				D0195CBD2E4C97C100AFEA0D /* RecipeBuddyTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D0195CBC2E4C97C100AFEA0D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0BB9F4B2E4B49C700082188 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -115,6 +206,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D0195CBA2E4C97C100AFEA0D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D0BB9F492E4B49C700082188 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -124,7 +222,51 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D0195CC32E4C97C100AFEA0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D0BB9F4C2E4B49C700082188 /* RecipeBuddy */;
+			targetProxy = D0195CC22E4C97C100AFEA0D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		D0195CC52E4C97C100AFEA0D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59ZR8AS8S2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.RecipeBuddyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecipeBuddy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RecipeBuddy";
+			};
+			name = Debug;
+		};
+		D0195CC62E4C97C100AFEA0D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 59ZR8AS8S2;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.RecipeBuddyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RecipeBuddy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RecipeBuddy";
+			};
+			name = Release;
+		};
 		D0BB9F592E4B49C900082188 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -305,6 +447,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D0195CC42E4C97C100AFEA0D /* Build configuration list for PBXNativeTarget "RecipeBuddyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0195CC52E4C97C100AFEA0D /* Debug */,
+				D0195CC62E4C97C100AFEA0D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D0BB9F482E4B49C700082188 /* Build configuration list for PBXProject "RecipeBuddy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
